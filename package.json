@@ -1,0 +1,31 @@
+{
+  "name": "h-open",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@hono/standard-validator": "^0.1.5",
+    "hono": "^4.9.6",
+    "hono-openapi": "^1.0.0"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.12.3",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.4",
+    "wrangler": "^4.34.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp",
+      "workerd"
+    ]
+  },
+  "engines": {
+    "node": ">= 24",
+    "pnpm": ">= 10"
+  },
+  "type": "module",
+  "private": true
+}
