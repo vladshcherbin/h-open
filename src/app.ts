@@ -53,6 +53,10 @@ app.get('/user',
   })
 )
 
-app.get('/openapi.json', openAPIRouteHandler(app))
+app.get('/openapi.json', (context, next) => {
+  const handler = openAPIRouteHandler(app)
+
+  return handler(context, next)
+})
 
 export default app
