@@ -14,13 +14,13 @@ const userSchema = pipe(
 
 const app = new Hono()
 
-// app.use(describeRoute({
-//  security: [
-//     {
-//       MyAuth: []
-//     }
-//   ]
-// }))
+app.use(describeRoute({
+ security: [
+    {
+      bearerAuth: []
+    }
+  ]
+}))
 
 app.get('/', (context) => context.json({ message: 'hello world' }))
 
@@ -62,10 +62,11 @@ app.get('/user',
 )
 
 app.get('/openapi.json', openAPIRouteHandler(app, {
+  includeEmptyPaths: true,
   documentation: {
     components: {
       securitySchemes: {
-        MyAuth: {
+        bearerAuth: {
           type: 'http',
           scheme: 'bearer',
           bearerFormat: 'JWT',
