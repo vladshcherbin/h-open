@@ -1,6 +1,6 @@
 import { Hono } from 'hono'
 import { describeRoute, openAPIRouteHandler, resolver } from 'hono-openapi'
-import { array, metadata, number, object, pipe, string, type InferOutput } from 'valibot'
+import { array, metadata, number, object, pipe, string } from 'valibot'
 
 const userSchema = pipe(
   object({
@@ -13,6 +13,14 @@ const userSchema = pipe(
 )
 
 const app = new Hono()
+
+// app.use(describeRoute({
+//  security: [
+//     {
+//       MyAuth: []
+//     }
+//   ]
+// }))
 
 app.get('/', (context) => context.json({ message: 'hello world' }))
 
@@ -53,10 +61,18 @@ app.get('/user',
   })
 )
 
-app.get('/openapi.json', (context, next) => {
-  const handler = openAPIRouteHandler(app)
-
-  return handler(context, next)
-})
+app.get('/openapi.json', openAPIRouteHandler(app, {
+  documentation: {
+    components: {
+      securitySchemes: {
+        MyAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        }
+      }
+    }
+  }
+}))
 
 export default app
